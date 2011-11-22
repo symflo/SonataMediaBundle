@@ -50,6 +50,16 @@ abstract class BaseProvider implements MediaProviderInterface
     }
 
     /**
+     * @param array $formats
+     *
+     * @return void
+     */
+    public function setFormats(array $formats)
+    {
+        $this->formats = $formats;
+    }
+
+    /**
      * @param string $name
      * @param array $format
      *

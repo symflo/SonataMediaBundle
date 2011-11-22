@@ -67,11 +67,19 @@ class SonataMediaExtension extends Extension
 
         $strategies = array();
 
+        $defaultsFormat = array(
+            'width' => 200,
+            'quality' => 80,
+            'format' => 'jpg',
+            'height' => false,
+            'constraint' => true,
+        );
+
         foreach ($config['contexts'] as $name => $settings) {
             $formats = array();
 
             foreach ($settings['formats'] as $format => $value) {
-                $formats[$name.'_'.$format] = $value;
+                $formats[$name.'_'.$format] = array_merge($defaultsFormat, $value);
             }
 
             if (!isset($settings['download'])) {

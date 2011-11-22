@@ -16,6 +16,13 @@ use Sonata\AdminBundle\Form\FormMapper;
 interface MediaProviderInterface
 {
     /**
+     * @param array $formats
+     *
+     * @return void
+     */
+    function setFormats(array $formats);
+
+    /**
      * @param string $name
      * @param array $format
      *

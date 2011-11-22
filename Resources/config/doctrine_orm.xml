@@ -15,12 +15,12 @@
         <service id="sonata.media.manager.media" class="%sonata.media.manager.media.class%">
             <argument type="service" id="sonata.media.pool" />
             <argument type="service" id="sonata.media.entity_manager" />
-            <argument>Application\Sonata\MediaBundle\Entity\Media</argument>
+            <argument>%sonata.media.admin.media.entity%</argument>
         </service>
 
         <service id="sonata.media.manager.gallery" class="%sonata.media.manager.gallery.class%">
             <argument type="service" id="sonata.media.entity_manager" />
-            <argument>Application\Sonata\MediaBundle\Entity\Gallery</argument>
+            <argument>%sonata.media.admin.gallery.entity%</argument>
         </service>
 
         <!-- Path generator servive -->

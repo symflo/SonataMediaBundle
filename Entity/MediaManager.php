@@ -63,19 +63,24 @@ class MediaManager extends AbstractMediaManager
 
         $isNew = $media->getId() === null;
 
+        $formats  = $this->pool->getFormatNamesByContext($media->getContext());
+
+        $provider = $this->pool->getProvider($media->getProviderName());
+        $provider->setFormats($formats);
+
         if ($isNew) {
-            $this->pool->getProvider($media->getProviderName())->prePersist($media);
+            $provider->prePersist($media);
         } else {
-            $this->pool->getProvider($media->getProviderName())->preUpdate($media);
+            $provider->preUpdate($media);
         }
 
         $this->em->persist($media);
         $this->em->flush();
 
         if ($isNew) {
-            $this->pool->getProvider($media->getProviderName())->postPersist($media);
+            $provider->postPersist($media);
         } else {
-            $this->pool->getProvider($media->getProviderName())->postUpdate($media);
+            $provider->postUpdate($media);
         }
 
         // just in case the pool alter the media
@@ -91,11 +96,16 @@ class MediaManager extends AbstractMediaManager
      */
     public function delete(MediaInterface $media)
     {
-        $this->pool->getProvider($media->getProviderName())->preRemove($media);
+        $formats  = $this->pool->getFormatNamesByContext($media->getContext());
+
+        $provider = $this->pool->getProvider($media->getProviderName());
+        $provider->setFormats($formats);
+
+        $provider->preRemove($media);
         $this->em->remove($media);
         $this->em->flush();
 
-        $this->pool->getProvider($media->getProviderName())->postRemove($media);
+        $provider->postRemove($media);
         $this->em->flush();
     }
 }
