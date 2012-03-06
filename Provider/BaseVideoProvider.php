@@ -31,6 +31,27 @@ abstract class BaseVideoProvider extends BaseProvider
 
     /**
      * @param \Sonata\MediaBundle\Model\MediaInterface $media
+     * @return void
+     */
+    public function preRemove(MediaInterface $media)
+    {
+        $path = $this->generatePrivateUrl($media, 'reference');
+
+        if ($this->getFilesystem()->has($path)) {
+            $this->getFilesystem()->delete($path);
+        }
+
+        // delete the differents formats
+        foreach ($this->formats as $format => $definition) {
+            $path = $this->generatePrivateUrl($media, $format);
+            if ($this->getFilesystem()->has($path)) {
+                $this->getFilesystem()->delete($path);
+            }
+        }
+    }
+
+    /**
+     * @param \Sonata\MediaBundle\Model\MediaInterface $media
      * @return \Gaufrette\File
      */
     public function getReferenceFile(MediaInterface $media)
